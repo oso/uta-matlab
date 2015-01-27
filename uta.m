@@ -1,16 +1,15 @@
-function y = uta(xdomain, ysteps, x)
+function u = uta(xdomain, ui, x)
 
-nseg  = length(ysteps) - 1;
-interval = (xdomain(2) - xdomain(1)) / nseg;
+nseg  = length(ui) - 1;
+xint = (xdomain(2) - xdomain(1)) / nseg;
 
-xi = x / interval;
-xp = mod(x, interval);
+xi = x / xint;
+xp = mod(x, xint);
 xlow = floor(xi);
 xhigh = ceil(xi);
 
 if xlow == xhigh
-	y = ysteps(xlow + 1);
+	u = ui(xlow + 1);
 else
-	y = ysteps(xlow + 1) \
-		+ xp / interval * (ysteps(xhigh + 1) - ysteps(xlow + 1));
+	u = ui(xlow + 1) + xp / xint * (ui(xhigh + 1) - ui(xlow + 1));
 end
