@@ -1,8 +1,6 @@
-function s = utasort(xpts, uis, ucats, pt)
+function s = utasort(ucats, u)
 
-u = uta(xpts, uis, pt);
-
-s = ones(size(pt, 1), 1);
+s = ones(size(u, 1), 1);
 
 for i = 1:length(ucats)
 	ucat = ucats(i);

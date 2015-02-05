@@ -1,4 +1,4 @@
-function [pol, ucats] = utapol(deg, xdomains, ncategories, pt, assignments)
+function [pcoefs, ucats] = utapol(deg, xdomains, ncategories, pt, assignments)
 
 epsilon = 0.00001
 na = size(pt, 1)
@@ -62,4 +62,4 @@ cvx_begin
 		end
 cvx_end
 
-pol = a';
+pcoefs = fliplr(a');
