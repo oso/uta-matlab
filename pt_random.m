@@ -1,4 +1,4 @@
-function pt = random_pt(n, xdomains)
+function pt = pt_random(n, xdomains)
 
 ncriteria = size(xdomains, 1);
 pt = rand(n, ncriteria);

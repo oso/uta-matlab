@@ -1,4 +1,4 @@
-function [xpts, uis] = utarandom(xdomains, nsegs)
+function [xpts, uis] = uta_random(xdomains, nsegs)
 
 ncriteria = size(xdomains, 1);
 nsegmax = max(nsegs);

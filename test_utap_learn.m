@@ -14,7 +14,7 @@ xdomains = repmat([0 10], ncriteria, 1)
 nsegs = repmat([4], ncriteria, 1)
 
 % generate random UTA functions
-[xpts, uis] = utarandom(xdomains, nsegs)
+[xpts, uis] = uta_random(xdomains, nsegs)
 
 % generate category thresholds
 %ucats = sort(rand(1, ncategories - 1))
@@ -22,7 +22,7 @@ ucats = linspace(0, 1, ncategories + 1);
 ucats = ucats(2:ncategories)
 
 % generate random performance table
-pt = random_pt(na, xdomains)
+pt = pt_random(na, xdomains)
 
 % compute assignments
 u = uta(xpts, uis, pt);
