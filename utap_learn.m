@@ -1,8 +1,9 @@
-function [pcoefs, ucats] = utapol(deg, xdomains, ncategories, pt, assignments)
+function [pcoefs, ucats] = utap_learn(deg, xdomains, ncategories, pt, ...
+				      assignments)
 
-epsilon = 0.00001
-na = size(pt, 1)
-ncriteria = size(pt, 2)
+epsilon = 0.00001;
+na = size(pt, 1);
+ncriteria = size(pt, 2);
 
 n = ceil(deg / 2 + 1);
 
@@ -13,7 +14,7 @@ cvx_begin
 	variable aplus(na) nonnegative;
 	variable amin(na) nonnegative;
 
-	minimize (sum(aplus) + sum(amin))
+	minimize (sum(aplus) + sum(amin));
 	subject to
 		for i = 1:na
 			ap = pt(i, :);
@@ -41,13 +42,13 @@ cvx_begin
 			xdomains(j, 1).^(0:deg)*a(:,j) == 0;
 		end
 
-		umax = 0
+		umax = 0;
 		for j = 1: ncriteria
 			umax = umax + xdomains(j, 2).^(0:deg)*a(:,j);
 		end
 		umax == 1;
 
-		k = 1 - n
+		k = 1 - n;
 		for i = 2:2*n
 			for j = 1:ncriteria
 				ai = sum(diag(rot90(Q(:, :, j)), k));
@@ -58,7 +59,7 @@ cvx_begin
 				end
 			end
 
-			k = k + 1
+			k = k + 1;
 		end
 cvx_end
 

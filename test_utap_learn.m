@@ -1,8 +1,9 @@
 close all; clear all; clc;
 
 % init pseudo-random number generator
-rand('seed', 1)
+rand('seed', 123);
 
+na = 1000
 ncriteria = 5
 ncategories = 3
 
@@ -10,19 +11,17 @@ ncategories = 3
 xdomains = repmat([0 10], ncriteria, 1)
 
 % number of segments
-nsegs = repmat([4], ncriteria, 1);
+nsegs = repmat([4], ncriteria, 1)
 
 % generate random UTA functions
 [xpts, uis] = utarandom(xdomains, nsegs)
 
 % generate category thresholds
-ncategories = 3
 %ucats = sort(rand(1, ncategories - 1))
 ucats = linspace(0, 1, ncategories + 1);
 ucats = ucats(2:ncategories)
 
 % generate random performance table
-na = 1000;
 pt = random_pt(na, xdomains)
 
 % compute assignments
@@ -30,10 +29,10 @@ u = uta(xpts, uis, pt);
 assignments = utasort(ucats, u)
 
 % degree of the polynoms
-degree = 4
+degree = 4;
 
 % compute polynoms
-[pcoefs, ucats2] = utapol(degree, xdomains, ncategories, pt, assignments)
+[pcoefs, ucats2] = utap_learn(degree, xdomains, ncategories, pt, assignments)
 
 % plot UTA picewise linear functions and polynoms
 figure
