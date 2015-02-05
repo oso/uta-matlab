@@ -1,15 +1,8 @@
-function u = uta(xdomain, ui, x)
+function u = uta(xpts, uis, pt)
 
-nseg  = length(ui) - 1;
-xint = (xdomain(2) - xdomain(1)) / nseg;
+ncriteria = size(pt, 2)
 
-xi = x / xint;
-xp = mod(x, xint);
-xlow = floor(xi);
-xhigh = ceil(xi);
-
-if xlow == xhigh
-	u = ui(xlow + 1);
-else
-	u = ui(xlow + 1) + xp / xint * (ui(xhigh + 1) - ui(xlow + 1));
+u = zeros(size(pt, 1), 1);
+for i = 1:ncriteria
+	u = u + interp1(xpts(i, :), uis(i,:), pt(:,i));
 end
