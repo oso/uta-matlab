@@ -11,8 +11,8 @@ uis = zeros(ncriteria, nsegmax + 1);
 xpts = zeros(ncriteria, nsegmax + 1);
 
 for i = 1:ncriteria
-	npts = nsegs(i) + 1
-	xpts(i, 1:npts) = linspace(xdomains(i, 1), xdomains(i, 2), npts)
-	uis(i, 1:npts) = sort(rand(1, npts))
-	uis(i, 1:npts) = uis(i, 1:npts) ./ uis(i, npts) .* uimax(i)
+	npts = nsegs(i) + 1;
+	xpts(i, 1:npts) = linspace(xdomains(i, 1), xdomains(i, 2), npts);
+	uis(i, 1:npts) = sort(rand(1, npts));
+	uis(i, 1:npts) = uis(i, 1:npts) ./ uis(i, npts) .* uimax(i);
 end
