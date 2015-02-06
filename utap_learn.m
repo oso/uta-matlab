@@ -38,12 +38,16 @@ cvx_begin
 			Q(:, :, j) == semidefinite(n);
 		end
 
-		for j = 1: ncriteria
+		for j = 1:ncriteria
 			xdomains(j, 1).^(0:deg)*a(:,j) == 0;
 		end
 
+		for i = 1:ncategories-2
+			ucats(i) <= ucats(i + 1);
+		end
+
 		umax = 0;
-		for j = 1: ncriteria
+		for j = 1:ncriteria
 			umax = umax + xdomains(j, 2).^(0:deg)*a(:,j);
 		end
 		umax == 1;
