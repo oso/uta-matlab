@@ -1,5 +1,8 @@
 close all; clear all; clc;
 
+% cvx precision
+% cvx_precision best
+
 % init pseudo-random number generator
 rand('seed', 123);
 
@@ -8,7 +11,7 @@ ncriteria = 5
 ncategories = 3
 
 % domains of the criteria
-xdomains = repmat([0 10], ncriteria, 1);
+xdomains = repmat([-1 1], ncriteria, 1);
 
 % number of segments
 nsegs = repmat([10], ncriteria, 1);
@@ -77,7 +80,7 @@ for j = 1:ncriteria
 	hold on;
 	axis on;
 
-	ustr = sprintf('%g ', ucats2);
+	ustr = sprintf('%g ', ucats);
 	plotstr = sprintf('plinear;  U [%s]', ustr);
 
 	plots(1) = plot(xpts(j,:), uis(j,:), '-*', 'Color', cmap(1,:), ...
