@@ -76,7 +76,7 @@ for i = 1:length(degrees)
 
 	% print polynomials
 	for j = 1:ncriteria
-		fprintf('%d: %s\n', j, print_poly(pcoefs(j, :)));
+		fprintf('u_%d: %s\n', j, print_poly(pcoefs(j, :)));
 	end
 
 	% print uvals

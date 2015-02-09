@@ -84,6 +84,7 @@ fprintf('==========================\n\n');
 for j = 1:ncriteria
 	str = print_pl(xpts(j,:), uis(j,:));
 	fprintf('u_%d: %s\n', j, str);
+	fprintf('U: %s\n', ustr);
 end
 
 for i = 1:length(degrees)
@@ -107,7 +108,7 @@ for i = 1:length(degrees)
 
 	% print polynomials
 	for j = 1:ncriteria
-		fprintf('%d: %s\n', j, print_poly(pcoefs(j, :)));
+		fprintf('u_%d: %s\n', j, print_poly(pcoefs(j, :)));
 	end
 
 	% print uvals
