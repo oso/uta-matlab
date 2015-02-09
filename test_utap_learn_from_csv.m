@@ -14,7 +14,7 @@ ncriteria = size(pt, 2)
 xdomains = [min(pt)' max(pt)']
 
 % degrees of the polynoms
-degrees = [4];
+degrees = [3];
 
 results = cell(3);
 
@@ -37,9 +37,7 @@ for i = 1:length(degrees)
 	assignments2 = utasort(ucats2, u2);
 
 	% Compute classification accuracy
-	assign_diff = assignments - assignments2;
-	errors = size(find(assign_diff > 0), 1);
-	ca = (na - errors) / na;
+	ca = compute_ca(assignments, assignments2);
 
 	% Store ca, polynoms and category limits
 	results(i,1) = {pcoefs};
@@ -47,55 +45,47 @@ for i = 1:length(degrees)
 	results(i,3) = {ca};
 end
 
-% plot UTA piecewise linear functions and polynoms
+
+% plot polynomials
 figure
 
-nsubx = 4;
-nsuby = ceil((ncriteria) / nsubx) + 1;
-cmap = distinguishable_colors(length(degrees) + 1);
-%cmap = hsv(length(degrees) + 1);
+nplotsperline = 4;
+nlines = ceil((ncriteria) / nplotsperline) + 1;
+%cmap = distinguishable_colors(length(degrees) + 1);
+cmap = hsv(length(degrees) + 1);
 plots = [];
 
-pcoefs
 for i = 1:length(degrees)
 	deg = degrees(i);
+
+	pcoefs = cell2mat(results(i, 1));
+	ucats2 = cell2mat(results(i, 2));
+	ca = cell2mat(results(i, 3));
+
+	ustr = sprintf('%g ', ucats2);
+	plotstr = sprintf('degree %d; U [%s]; CA %g', deg, ustr, ca);
+
+	plotrefs = plot_poly_utilities(pcoefs, xdomains, '-', ...
+				       cmap(i,:), plotstr, ...
+				       nplotsperline);
+	plots(i) = plotrefs(1);
+
+	% print degree
 	fprintf('\nDegree %d\n', deg);
+	fprintf('========\n\n');
 
+	% print polynomials
 	for j = 1:ncriteria
-		subplot(nsuby, nsubx, j);
-
-		hold on;
-		axis on;
-
-		pcoefs = cell2mat(results(i, 1));
-		ucats2 = cell2mat(results(i, 2));
-		ca = cell2mat(results(i, 3));
-
-		x = xdomains(j,1):0.001:xdomains(j,2);
-		uval = polyval(pcoefs(j,:), x);
-
-		ustr = sprintf('%g ', ucats2);
-		plotstr = sprintf('degree %d; U [%s]; CA %g', deg, ustr, ca);
-
-		plots(i) = plot(x, uval, 'Color', cmap(i+1,:), ...
-				  'DisplayName', plotstr);
-
-		fprintf(' %d: %g', j, pcoefs(j, end));
-		for d = 1:deg
-			coef = pcoefs(j, end - d);
-			if coef >= 0
-				fprintf(' + ');
-			else
-				fprintf(' - ');
-			end
-			fprintf('%g*x^%d', abs(coef), d);
-		end
-		fprintf('\n');
-
-		hold off;
+		fprintf('%d: %s\n', j, print_poly(pcoefs(j, :)));
 	end
+
+	% print uvals
+	fprintf('U: %s\n', ustr);
+
+	% print CA
+	fprintf('CA: %g\n', ca);
 end
 
-sh = subplot(nsuby, nsubx, nsubx * nsuby);
+sh = subplot(nlines, nplotsperline, nplotsperline * nlines);
 axis off;
 legend(sh, plots);

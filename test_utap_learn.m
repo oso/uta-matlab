@@ -32,7 +32,7 @@ u = uta(xpts, uis, pt);
 assignments = utasort(ucats, u);
 
 % degrees of the polynoms
-degrees = [3 4 5];
+degrees = [4];
 
 results = cell(3);
 
@@ -55,9 +55,7 @@ for i = 1:length(degrees)
 	assignments2 = utasort(ucats2, u2);
 
 	% Compute classification accuracy
-	assign_diff = assignments - assignments2;
-	errors = size(find(assign_diff > 0), 1);
-	ca = (na - errors) / na;
+	ca = compute_ca(assignments, assignments2);
 
 	% Store ca, polynoms and category limits
 	results(i,1) = {pcoefs};
@@ -68,53 +66,60 @@ end
 % plot UTA piecewise linear functions and polynoms
 figure
 
-nsubx = 4;
-nsuby = ceil((ncriteria) / nsubx) + 1;
+nplotsperline = 4;
+nlines = ceil((ncriteria) / nplotsperline) + 1;
 %cmap = distinguishable_colors(length(degrees) + 1)
 cmap = hsv(length(degrees) + 1);
 plots = [];
 
+ustr = sprintf('%g', ucats);
+plotstr = sprintf('plinear;  U [%s]', ustr);
+plotrefs = plot_pl_utilities(xpts, uis, '-*', cmap(1,:), plotstr, ...
+			     nplotsperline);
+plots(1) = plotrefs(1);
+
+% print piecewise linear functions
+fprintf('piecewise linear functions\n');
+fprintf('==========================\n\n');
 for j = 1:ncriteria
-	subplot(nsuby, nsubx, j);
-
-	hold on;
-	axis on;
-
-	ustr = sprintf('%g ', ucats);
-	plotstr = sprintf('plinear;  U [%s]', ustr);
-
-	plots(1) = plot(xpts(j,:), uis(j,:), '-*', 'Color', cmap(1,:), ...
-			'DisplayName', plotstr);
-
-	hold off;
+	str = print_pl(xpts(j,:), uis(j,:));
+	fprintf('u_%d: %s\n', j, str);
 end
 
 for i = 1:length(degrees)
 	deg = degrees(i);
 
+	pcoefs = cell2mat(results(i, 1));
+	ucats2 = cell2mat(results(i, 2));
+	ca = cell2mat(results(i, 3));
+
+	ustr = sprintf('%g ', ucats2);
+	plotstr = sprintf('degree %d; U [%s]; CA %g', deg, ustr, ca);
+
+	plotrefs = plot_poly_utilities(pcoefs, xdomains, '-', ...
+				       cmap(i+1,:), plotstr, ...
+				       nplotsperline);
+	plots(i + 1) = plotrefs(1);
+
+	% print degree
+	fprintf('\nDegree %d\n', deg);
+	fprintf('========\n\n');
+
+	% print polynomials
 	for j = 1:ncriteria
-		subplot(nsuby, nsubx, j);
-
-		hold on;
-		axis on;
-
-		pcoefs = cell2mat(results(i, 1));
-		ucats2 = cell2mat(results(i, 2));
-		ca = cell2mat(results(i, 3));
-
-		x = xdomains(j,1):0.001:xdomains(j,2);
-		uval = polyval(pcoefs(j,:), x);
-
-		ustr = sprintf('%g ', ucats2);
-		plotstr = sprintf('degree %d; U [%s]; CA %g', deg, ustr, ca);
-
-		plots(i+1) = plot(x, uval, 'Color', cmap(i+1,:), ...
-				  'DisplayName', plotstr);
-
-		hold off;
+		fprintf('%d: %s\n', j, print_poly(pcoefs(j, :)));
 	end
+
+	% print uvals
+	fprintf('U: %s\n', ustr);
+
+	% print CA
+	fprintf('CA: %g\n', ca);
 end
 
-sh = subplot(nsuby, nsubx, nsubx * nsuby);
+sh = subplot(nlines, nplotsperline, nplotsperline * nlines);
+axis off;
+legend(sh, plots);
+sh = subplot(nlines, nplotsperline, nplotsperline * nlines - 2);
 axis off;
 legend(sh, plots);
