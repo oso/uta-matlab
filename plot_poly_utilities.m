@@ -10,7 +10,7 @@ for j = 1:ncriteria
 
 	hold on;
 
-	x = xdomains(j,1):0.001:xdomains(j,2);
+	x = linspace(xdomains(j,1), xdomains(j,2));
 	uval = polyval(p(j,:), x);
 
 	plotrefs(j) = plot(x, uval, 'Color', color, 'DisplayName', name);
