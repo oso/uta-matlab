@@ -11,7 +11,7 @@ ncriteria = 5
 ncategories = 3
 
 % domains of the criteria
-xdomains = repmat([-1 1], ncriteria, 1);
+xdomains = repmat([-10 0], ncriteria, 1);
 
 % number of segments
 nsegs = repmat([10], ncriteria, 1);
