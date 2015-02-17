@@ -34,7 +34,7 @@ assignments = utasort(ucats, u);
 % degrees of the polynoms
 degrees = [4];
 
-results = cell(3);
+results = cell(1, 3);
 
 for i = 1:length(degrees)
 	deg = degrees(i)
