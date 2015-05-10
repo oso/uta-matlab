@@ -22,8 +22,8 @@ for i = 1:length(degrees)
 	deg = degrees(i)
 
 	% compute polynoms
-	[pcoefs, ucats2] = utap_learn(deg, xdomains, ncategories, pt, ...
-				      assignments);
+	[pcoefs, ucats2] = utadisp_learn(deg, xdomains, ncategories, ...
+					 pt, assignments);
 
 	% Check that umax is equal to 1
 	umax = 0;

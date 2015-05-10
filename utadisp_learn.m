@@ -1,6 +1,6 @@
-function [pcoefs, ucats, cvx_status] = utap_learn2(deg, xdomains, ...
-						   ncategories, pt, ...
-						   assignments)
+function [pcoefs, ucats, cvx_status] = utadisp_learn(deg, xdomains, ...
+						     ncategories, pt, ...
+						     assignments)
 
 epsilon = 0.00001;
 na = size(pt, 1);
@@ -11,7 +11,6 @@ n = ceil(deg / 2 + 1);
 cvx_begin
 	variable a(deg + 1, ncriteria);
 	variable Q(n, n, ncriteria) symmetric;
-	variable R(n, n, ncriteria) symmetric;
 	variable ucats(ncategories - 1) nonnegative;
 	variable aplus(na) nonnegative;
 	variable amin(na) nonnegative;
@@ -37,6 +36,10 @@ cvx_begin
 		end
 
 		for j = 1:ncriteria
+			Q(:, :, j) == semidefinite(n);
+		end
+
+		for j = 1:ncriteria
 			xdomains(j, 1).^(0:deg)*a(:,j) == 0;
 		end
 
@@ -52,22 +55,10 @@ cvx_begin
 		end
 		umax == 1;
 
-		for j = 1:ncriteria
-			Q(:, :, j) == semidefinite(n);
-			R(:, :, j) == semidefinite(n);
-		end
-
 		k = 1 - n;
-		for i = 2:2*n+1
+		for i = 2:2*n
 			for j = 1:ncriteria
-				ai = - xdomains(j, 1) * sum(diag(rot90(Q(:, :, j)), k)) ...
-					+ xdomains(j, 2) * sum(diag(rot90(R(:, :, j)), k));
-
-				if i > 2
-					ai = ai + sum(diag(rot90(Q(:, :, j)), k - 1)) ...
-						- sum(diag(rot90(R(:, :, j)), k - 1));
-				end
-
+				ai = sum(diag(rot90(Q(:, :, j)), k));
 				if i > length(a(:,j))
 					ai == 0;
 				else

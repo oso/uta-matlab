@@ -27,8 +27,8 @@ for ina = 1:length(nas)
 
 	% compute polynoms
 	tic;
-	[pcoefs, ucats2] = utap_learn(deg, xdomains, ncategories, pt, ...
-				      assignments);
+	[pcoefs, ucats2] = utadisp_learn(deg, xdomains, ncategories, ...
+					 pt, assignments);
 	t(ina) = toc;
 
 	% print computing time
