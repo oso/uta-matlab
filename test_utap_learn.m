@@ -4,14 +4,14 @@ close all; clear all; clc;
 % cvx_precision best
 
 % init pseudo-random number generator
-rand('seed', 123);
+rand('seed', 12);
 
 na = 100
 ncriteria = 5
-ncategories = 3
+ncategories = 7
 
 % domains of the criteria
-xdomains = repmat([-10 0], ncriteria, 1);
+xdomains = repmat([0 1], ncriteria, 1);
 
 % number of segments
 nsegs = repmat([10], ncriteria, 1);
@@ -40,8 +40,15 @@ for i = 1:length(degrees)
 	deg = degrees(i)
 
 	% compute polynoms
-	[pcoefs, ucats2] = utap_learn(deg, xdomains, ncategories, pt, ...
-				      assignments);
+	[pcoefs, ucats2, cvx_status] = utap_learn(deg, xdomains, ...
+						  ncategories, pt, ...
+						  assignments);
+
+	% check cvx status
+	k = strfind(cvx_status, 'Solved');
+	if length(k) < 1
+		fprintf('error: cvx_status: %s\n', cvx_status);
+	end
 
 	% Check that umax is equal to 1
 	umax = 0;
