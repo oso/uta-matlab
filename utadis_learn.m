@@ -68,7 +68,7 @@ cvx_begin
 
 		umax = 0;
 		for j = 1:ncriteria
-			umax = umax + uis(j, nsegments(j) + 1)
+			umax = umax + uis(j, nsegments(j) + 1);
 		end
 		umax == 1;
 cvx_end
