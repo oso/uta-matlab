@@ -5,13 +5,12 @@ epsilon = 0.00001;
 na = size(pairwisecmp, 1);
 ncriteria = size(pt, 2);
 
-nsegmax = max(nsegments)
+nsegmax = max(nsegments);
 xpts = zeros(ncriteria, nsegmax + 1);
 for i = 1:ncriteria
 	npts = nsegments(i) + 1;
 	xpts(i, 1:npts) = linspace(xdomains(i, 1), xdomains(i, 2), npts);
 end
-xpts
 
 cvx_begin
 	variable uis(ncriteria, nsegmax + 1) nonnegative;
@@ -66,8 +65,6 @@ cvx_begin
 			elseif pairwisecmp(i, 3) == 0
 				u2 - u1 + aplus(i) - amin(i) == 0
 			end
-		end
-
 		end
 
 		for j = 1:ncriteria
