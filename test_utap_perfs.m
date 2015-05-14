@@ -86,6 +86,7 @@ end
 
 function [u, t] = learn_and_get_utility_utap(degree, xdomains, pt, ...
 					     pairwisecmp)
+
 tic;
 [pcoefs] = utap_learn(degree, xdomains, pt, pairwisecmp);
 t = toc;
@@ -96,8 +97,11 @@ end
 
 function [u, t] = learn_and_get_utility_uta(nseg, xdomains, pt, ...
 					    pairwisecmp)
+
+nsegs = repmat([nseg], length(xdomains), 1);
+
 tic;
-[uis] = uta_learn(nseg, xdomains, pt, pairwisecmp);
+[xpts, uis] = uta_learn(nsegs, xdomains, pt, pairwisecmp);
 t = toc;
 
 u = uta(xpts, uis, pt);
