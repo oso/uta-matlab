@@ -17,6 +17,7 @@ for na = nas
 		for degree_nseg = degrees_nsegs
 			rand('seed', 0);
 
+			na, ncriteria, degrees_nsegs
 			i = i + 1;
 			[tavg, tstd, sdavg, sdstd, ktavg, ktstd] = ...
 				run_one_utap_test(na, ncriteria, ...
