@@ -1,5 +1,5 @@
-function [uis, cvx_status] = uta_learn(nsegments, xdomains, ...
-				       pt, pairwisecmp)
+function [xpts, uis, cvx_status] = uta_learn(nsegments, xdomains, ...
+					     pt, pairwisecmp)
 
 epsilon = 0.00001;
 na = size(pairwisecmp, 1);
