@@ -1,6 +1,6 @@
 function u = utap(pcoefs, pt)
 
-na = size(pt, 1)
+na = size(pt, 1);
 ncriteria = size(pt, 2);
 
 ui = [];
