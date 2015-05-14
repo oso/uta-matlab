@@ -1,7 +1,7 @@
 function [pairwisecmp] = compute_pairwise_relations(u)
 
 [usorted, index] = sortrows(u, 1);
-na = length(u)
+na = length(u);
 
 pairwisecmp = [zeros(1, 3)];
 
