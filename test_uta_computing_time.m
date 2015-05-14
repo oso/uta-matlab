@@ -39,10 +39,6 @@ for ina = 1:length(nas)
 	t2std(ina) = std(t2);
 end
 
-[tavg' tstd' t2avg' t2std']
-d = dataset({[tavg' tstd' t2avg' t2std'] ...
-	     'UTAP_AVG' 'UTAP_STD' 'UTA_AVG' 'UTA_STD'})
-
-
 filename = sprintf('%s-%d-%d.dat', fileprefix, ncriteria, deg);
-export(d, 'File', filename, 'delimiter', ',')
+savedata({'UTAP_AVG', 'UTAP_STD', 'UTA_AVG', 'UTA_STD'}, ...
+	 [tavg' tstd' t2avg' t2std'], filename);
