@@ -40,11 +40,11 @@ function [tavg, tstd, sdavg, sdstd, ktavg, ktstd] = ...
 				  nseginit)
 
 niterations = 10;
+xdomains = repmat([-1 1], ncriteria, 1);
+nseginit = repmat([nseginit], ncriteria, 1);
 
 for i = 1:niterations
 	% generate random initial UTA functions
-	xdomains = repmat([-1 1], ncriteria, 1);
-	nseginit = repmat([nseginit], ncriteria, 1);
 	[xpts, uis] = uta_random(xdomains, nseginit);
 
 	% generate random performance table
