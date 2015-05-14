@@ -1,6 +1,6 @@
 function u = uta(xpts, uis, pt)
 
-ncriteria = size(pt, 2)
+ncriteria = size(pt, 2);
 
 u = zeros(size(pt, 1), 1);
 for i = 1:ncriteria
