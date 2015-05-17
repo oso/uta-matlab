@@ -62,15 +62,19 @@ for i = 1:niterations
 
 	% learn model and compute utility
 	if strcmp(model, 'UTAP')
-		[u2, t(i), pcoefs2] = learn_and_get_utility_utap(...
-							degree_nseg, ...
-							xdomains, ...
-							pt, pairwisecmp);
+		tic;
+		[pcoefs2] = utap_learn(degree_nseg, xdomains, pt, pairwisecmp);
+		t(i) = toc;
+
+		u2 = utap(pcoefs2, pt);
 	elseif strcmp(model, 'UTA')
-		[u2, t(i), xpts2, uis2] = learn_and_get_utility_uta(...
-							degree_nseg, ...
-							xdomains, ...
-							pt, pairwisecmp);
+		nsegs = repmat([degree_nseg], length(xdomains), 1);
+
+		tic;
+		[xpts2, uis2] = uta_learn(nsegs, xdomains, pt, pairwisecmp);
+		t(i) = toc;
+
+		u2 = uta(xpts, uis, pt);
 	else
 		error('Invalid model')
 	end
@@ -102,35 +106,19 @@ tavg = mean(t);
 tstd = std(t);
 sdavg = mean(sd);
 sdstd = std(sd);
+sdmin = mean(sd);
+sdmax = std(sd);
 ktavg = mean(kt);
 ktstd = std(kt);
+ktmin = mean(kt);
+ktmax = std(kt);
 sdgenavg = mean(sdgen);
 sdgenstd = std(sdgen);
+sdgenmin = mean(sdgen);
+sdgenmax = std(sdgen);
 ktgenavg = mean(ktgen);
 ktgenstd = std(ktgen);
-
-end
-
-function [u, t, pcoefs] = learn_and_get_utility_utap(degree, xdomains, ...
-						     pt, pairwisecmp)
-
-tic;
-[pcoefs] = utap_learn(degree, xdomains, pt, pairwisecmp);
-t = toc;
-
-u = utap(pcoefs, pt);
-
-end
-
-function [u, t, xpts, uis] = learn_and_get_utility_uta(nseg, xdomains, ...
-						       pt, pairwisecmp)
-
-nsegs = repmat([nseg], length(xdomains), 1);
-
-tic;
-[xpts, uis] = uta_learn(nsegs, xdomains, pt, pairwisecmp);
-t = toc;
-
-u = uta(xpts, uis, pt);
+ktgenmin = mean(ktgen);
+ktgenmax = std(ktgen);
 
 end
