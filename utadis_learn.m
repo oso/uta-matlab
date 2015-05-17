@@ -1,19 +1,17 @@
-function [uis, ucats, cvx_status] = utadis_learn(xdomains, ...
-						 ncategories, ...
-						 nsegments, ...
-						 pt, assignments)
+function [xpts, uis, ucats, cvx_status] = utadis_learn(nsegments, xdomains, ...
+						       ncategories, ...
+						       pt, assignments)
 
 epsilon = 0.00001;
 na = size(pt, 1);
 ncriteria = size(pt, 2);
 
-nsegmax = max(nsegments)
+nsegmax = max(nsegments);
 xpts = zeros(ncriteria, nsegmax + 1);
 for i = 1:ncriteria
 	npts = nsegments(i) + 1;
 	xpts(i, 1:npts) = linspace(xdomains(i, 1), xdomains(i, 2), npts);
 end
-xpts
 
 cvx_begin
 	variable uis(ncriteria, nsegmax + 1) nonnegative;
