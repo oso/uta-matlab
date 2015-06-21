@@ -2,7 +2,7 @@ function [pcoefs, cvx_status] = utap_learn(deg, xdomains, pt, ...
 					   pairwisecmp)
 
 epsilon = 0.00001;
-na = size(pairwisecmp, 1);
+na = size(pt, 1);
 ncriteria = size(pt, 2);
 
 n = ceil(deg / 2 + 1);
@@ -15,7 +15,7 @@ cvx_begin
 
 	minimize (sum(aplus) + sum(amin));
 	subject to
-		for i = 1:na
+		for i = 1:size(pairwisecmp, 1)
 			i1 = pairwisecmp(i, 1);
 			i2 = pairwisecmp(i, 2);
 
@@ -30,11 +30,14 @@ cvx_begin
 			end
 
 			if pairwisecmp(i, 3) > 0
-				u1 - u2 + aplus(i) - amin(i) >= epsilon
+				u1 - u2 + aplus(i1) - amin(i1) ...
+					- aplus(i2) + amin(i2) >= epsilon
 			elseif pairwisecmp(i, 3) < 0
-				u2 - u1 + aplus(i) - amin(i) >= epsilon
+				u2 - u1 + aplus(i2) - amin(i2) ...
+					- aplus(i1) + amin(i1) >= epsilon
 			elseif pairwisecmp(i, 3) == 0
-				u2 - u1 + aplus(i) - amin(i) == 0
+				u2 - u1 + aplus(i2) - amin(i2) ...
+					- aplus(i1) + amin(i1) == 0
 			end
 		end
 
