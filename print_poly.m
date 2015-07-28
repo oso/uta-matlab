@@ -8,7 +8,7 @@ for d = 1:deg
 	if coef >= 0
 		str = strcat(str, ' + ');
 	else
-		str = sprintf(str, ' - ');
+		str = strcat(str, ' - ');
 	end
 	str = sprintf('%s %g*x^%d', str, abs(coef), d);
 end
