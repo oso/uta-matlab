@@ -13,7 +13,8 @@ for j = 1:ncriteria
 	for k = 1:size(xpts, 2)-1
 		x = linspace(xpts(j, k), xpts(j, k + 1));
 		uval = polyval(p(j,:,k), x);
-		plotrefs(j) = plot(x, uval, 'Color', color, 'DisplayName', name);
+		plotrefs(j) = plot(x, uval, '-', 'Color', color, 'DisplayName', name);
+		plot([xpts(j, k) xpts(j, k + 1)], [uval(1) uval(end)], '*', 'Color', color);
 	end
 
 	hold off;
