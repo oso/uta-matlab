@@ -1,6 +1,5 @@
 function u = utas(xpts, pcoefs, pt)
 
-xpts
 na = size(pt, 1);
 ncriteria = size(pt, 2);
 nsegments = size(xpts, 2) - 1;
