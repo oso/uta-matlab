@@ -5,7 +5,6 @@ na = size(pt, 1);
 ncriteria = size(pt, 2);
 nsegments = size(xpts, 2) - 1;
 
-pcoefs
 for i = 1:na
 	ap = pt(i, :);
 	u(i) = 0;
