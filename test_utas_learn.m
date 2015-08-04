@@ -6,8 +6,8 @@ close all; clear all; clc;
 % init pseudo-random number generator
 rand('seed', 12);
 
-na = 50
-ncriteria = 5
+na = 100
+ncriteria = 4
 
 % domains of the criteria
 xdomains = repmat([0 1], ncriteria, 1);
@@ -17,7 +17,6 @@ nsegs = repmat([4], ncriteria, 1);
 
 % generate random UTA functions
 [xpts, uis] = uta_random(xdomains, nsegs);
-xpts
 
 % generate random performance table
 pt = pt_random(na, xdomains);
@@ -31,10 +30,16 @@ ranking = compute_ranking(u)
 % compute preferences relations
 pairwisecmp = compute_pairwise_relations(u);
 
+% degrees of the splines
+degrees = [3 5 7 8];
+
 results = cell(1, 3);
 
-	% compute polynoms
-	[pcoefs, cvx_status] = utas_learn(nsegs, xdomains, ...
+for i = 1:length(degrees)
+	deg = degrees(i)
+
+	% compute splines
+	[pcoefs, cvx_status] = utas_learn(nsegs, deg, xdomains, ...
 					  pt, pairwisecmp);
 
 	% check cvx status
@@ -44,11 +49,7 @@ results = cell(1, 3);
 	end
 
 	% Check that umax is equal to 1
-	umax = 0;
-	for j = 1:ncriteria
-		umax = umax + utas(xpts, pcoefs, xdomains(j, 2));
-	end
-	umax
+	umax = utas(xpts, pcoefs, xdomains(:,2)')
 
 	% Compute utilities with the polynomials
 	u2 = utas(xpts, pcoefs, pt);
@@ -60,16 +61,22 @@ results = cell(1, 3);
 	spearmand = compute_spearman_distance(ranking, ranking2)
 	kendallt = compute_kendall_tau(ranking, ranking2)
 
+	% Store results, spearman distance and kendall tau
+	results(i, 1) = {pcoefs};
+	results(i, 2) = {spearmand};
+	results(i, 3) = {kendallt};
+end
+
 % plot UTA piecewise linear functions and polynoms
 figure
 
 nplotsperline = 4;
 nlines = ceil((ncriteria) / nplotsperline) + 1;
+cmap = distinguishable_colors(length(degrees) + 1);
+%cmap = hsv(length(degrees) + 1);
 plots = [];
 
 plotstr = sprintf('plinear');
-%cmap = hsv(2);
-cmap = distinguishable_colors(2);
 plotrefs = plot_pl_utilities(xpts, uis, '-*', cmap(1,:), plotstr, ...
 			     nplotsperline);
 plots(1) = plotrefs(1);
@@ -82,20 +89,26 @@ for j = 1:ncriteria
 	fprintf('u_%d: %s\n', j, str);
 end
 
-	sd = spearmand;
-	kt = kendallt;
+for i = 1:length(degrees)
+	deg = degrees(i);
+
+	pcoefs = cell2mat(results(i, 1));
+	sd = cell2mat(results(i, 2));
+	kt = cell2mat(results(i, 3));
+
+	plotstr = sprintf('degree %d; SD %g; KT %g', deg, sd, kt);
 
 	plotrefs = plot_splines_utilities(pcoefs, xpts, '-', ...
-				          cmap(2,:), plotstr, ...
+				          cmap(i+1, :), plotstr, ...
 				          nplotsperline);
-	% print polynomials
-	for j = 1:ncriteria
-		fprintf('u_%d: %s\n', j, print_poly(pcoefs(j, :)));
-	end
 
-	% print CA
+	plots(i + 1) = plotrefs(1);
+
+	% print accuracy
+	fprintf('\ndegree: %d\n', deg);
 	fprintf('Spearman distance: %g\n', sd);
 	fprintf('Kendall tau: %g\n', kt);
+end
 
 sh = subplot(nlines, nplotsperline, nplotsperline * nlines);
 axis off;
