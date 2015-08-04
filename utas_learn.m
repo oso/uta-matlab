@@ -1,4 +1,4 @@
-function [pcoefs, cvx_status] = utas_learn(nsegments, xdomains, ...
+function [pcoefs, cvx_status] = utas_learn(nsegments, deg, xdomains, ...
 					   pt, pairwisecmp)
 
 epsilon = 0.00001;
@@ -12,7 +12,6 @@ for i = 1:ncriteria
 	xpts(i, 1:npts) = linspace(xdomains(i, 1), xdomains(i, 2), npts);
 end
 
-deg = 3;
 deg_continuity = deg - 1;
 
 cvx_begin
