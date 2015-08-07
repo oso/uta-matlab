@@ -21,3 +21,5 @@ for i = 1:na
 		u(i) = u(i) + polyval(pcoefs(j, :, k - 1), ap(j));
 	end
 end
+
+u = u';
