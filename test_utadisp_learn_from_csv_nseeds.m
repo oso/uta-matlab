@@ -37,8 +37,8 @@ for seed = 1:nseeds
 
 		% compute polynomials
 		[pcoefs, ucats2, cvx_status] = ...
-			utadisp_learn(deg, xdomains, ncategories, ...
-				      pt, assignments);
+			utadisp_learn2(deg, xdomains, ncategories, ...
+				       pt, assignments);
 
 		% check cvx status
 		k = strfind(cvx_status, 'Solved');
