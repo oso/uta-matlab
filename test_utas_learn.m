@@ -39,8 +39,8 @@ for i = 1:length(degrees)
 	deg = degrees(i)
 
 	% compute splines
-	[pcoefs, cvx_status] = utas_learn(nsegs, deg, xdomains, ...
-					  pt, pairwisecmp);
+	[pcoefs, cvx_status] = utas_learn2(nsegs, deg, xdomains, ...
+					   pt, pairwisecmp);
 
 	% check cvx status
 	k = strfind(cvx_status, 'Solved');
