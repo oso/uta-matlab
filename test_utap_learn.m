@@ -39,8 +39,8 @@ for i = 1:length(degrees)
 	deg = degrees(i)
 
 	% compute polynoms
-	[pcoefs, cvx_status] = utap_learn(deg, xdomains, ...
-					  pt, pairwisecmp);
+	[pcoefs, cvx_status] = utap_learn2(deg, xdomains, ...
+					   pt, pairwisecmp);
 
 	% check cvx status
 	k = strfind(cvx_status, 'Solved');
