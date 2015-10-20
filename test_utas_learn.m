@@ -31,7 +31,10 @@ ranking = compute_ranking(u)
 pairwisecmp = compute_pairwise_relations(u);
 
 % degrees of the splines
-degrees = [3 5 7 8];
+degrees = [3];
+
+% degree of continuity of the splines
+deg_continuity = 2
 
 results = cell(1, 3);
 
@@ -39,8 +42,8 @@ for i = 1:length(degrees)
 	deg = degrees(i)
 
 	% compute splines
-	[pcoefs, cvx_status] = utas_learn2(nsegs, deg, xdomains, ...
-					   pt, pairwisecmp);
+	[pcoefs, cvx_status] = utas_learn2(nsegs, deg, deg_continuity, ...
+					   xdomains, pt, pairwisecmp);
 
 	% check cvx status
 	k = strfind(cvx_status, 'Solved');
@@ -56,6 +59,7 @@ for i = 1:length(degrees)
 
 	% Compute the ranking
 	ranking2 = compute_ranking(u2);
+	[ranking'; ranking2'; u'; u2']'
 
 	% Compute spearman distance
 	spearmand = compute_spearman_distance(ranking, ranking2)

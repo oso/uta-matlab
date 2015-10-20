@@ -4,7 +4,7 @@ close all; clear all; clc;
 % cvx_precision best
 
 % init pseudo-random number generator
-rand('seed', 123);
+rand('seed', 1238);
 
 na = 200
 ncriteria = 4
@@ -13,7 +13,7 @@ ncriteria = 4
 xdomains = repmat([0 1], ncriteria, 1);
 
 % number of segments
-nsegs = repmat([100], ncriteria, 1);
+nsegs = repmat([10], ncriteria, 1);
 
 % generate random UTA functions
 [xpts, uis] = uta_random(xdomains, nsegs);
@@ -32,7 +32,8 @@ pairwisecmp = compute_pairwise_relations(u);
 
 degree_poly = 7
 degree_splines = 3
-nsegs2 = repmat([8], ncriteria, 1);
+degree_continuity = 2
+nsegs2 = repmat([10], ncriteria, 1);
 xpts_splines = xlinspace(xdomains, nsegs2);
 
 % compute polynomials
@@ -50,7 +51,8 @@ end
 umax = utap(pcoefs, xdomains(:,2)')
 
 % compute splines
-[spcoefs, cvx_status] = utas_learn2(nsegs2, degree_splines, xdomains, ...
+[spcoefs, cvx_status] = utas_learn2(nsegs2, degree_splines, ...
+				    degree_continuity, xdomains, ...
 				    pt, pairwisecmp);
 spcoefs
 
