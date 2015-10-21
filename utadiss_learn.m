@@ -59,6 +59,22 @@ cvx_begin
 		Q(:,:,:,:) <= 10;
 		Q(:,:,:,:) >= -10;
 
+		l = 1 - deg;
+		for i = 2:2*deg
+			for j = 1:ncriteria
+				for k = 1:nsegments(j)
+					ai = sum(diag(rot90(Q(:, :, j, k)), l));
+					if i > length(a(:,j))
+						ai == 0;
+					else
+						ai == (i - 1) * a(i, j, k);
+					end
+				end
+			end
+
+			l = l + 1;
+		end
+
 		for i = 1:ncategories-2
 			ucats(i) <= ucats(i + 1);
 		end
@@ -74,7 +90,6 @@ cvx_begin
 			umax = umax + xdomains(j, 2).^(0:deg)*a(:, j, nsegments(j));
 		end
 		umax == 1;
-
 
 		for d = 0:deg_continuity
 			z = [];
