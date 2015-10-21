@@ -15,9 +15,11 @@ for i = 1:ncriteria
 	xpts(i, 1:npts) = linspace(xdomains(i, 1), xdomains(i, 2), npts);
 end
 
+n = ceil(deg / 2 + 1);
+
 cvx_begin
 	variable a(deg + 1, ncriteria, nsegmax);
-	variable Q(deg, deg, ncriteria, nsegmax) symmetric;
+	variable Q(n, n, ncriteria, nsegmax) symmetric;
 	variable ucats(ncategories - 1) nonnegative;
 	variable aplus(na) nonnegative;
 	variable amin(na) nonnegative;
@@ -52,7 +54,7 @@ cvx_begin
 
 		for j = 1:ncriteria
 			for k = 1:nsegmax
-				Q(:, :, j) == semidefinite(deg);
+				Q(:, :, j, k) == semidefinite(n);
 			end
 		end
 
