@@ -69,7 +69,8 @@ for i = 1:niterations
 
 		u2 = utap(pcoefs2, pt);
 	elseif strcmp(model, 'UTAS')
-		nsegs = repmat([degree_nseg], length(xdomains), 1);
+		nsegs = repmat([nseg], length(xdomains), 1);
+		xpts2 = xlinspace(xdomains, nsegs);
 
 		tic;
 		[pcoefs2] = utas_learn(nsegs, degree, 2, xdomains, pt, pairwisecmp);
@@ -98,6 +99,8 @@ for i = 1:niterations
 	u = uta(xpts, uis, pt);
 	if strcmp(model, 'UTAP')
 		u2 = utap(pcoefs2, pt);
+	elseif strcmp(model, 'UTAS')
+		u2 = utas(xpts2, pcoefs2, pt);
 	elseif strcmp(model, 'UTA')
 		u2 = uta(xpts2, uis2, pt);
 	else
