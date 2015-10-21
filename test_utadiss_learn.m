@@ -4,7 +4,7 @@ close all; clear all; clc;
 % cvx_precision best
 
 % init pseudo-random number generator
-rand('seed', 12);
+rand('seed', 1234);
 
 na = 100
 ncriteria = 5
@@ -32,7 +32,7 @@ u = uta(xpts, uis, pt);
 assignments = utasort(ucats, u);
 
 % degrees of the polynomials
-nsegs2 = repmat([3], ncriteria, 1);
+nsegs2 = repmat([10], ncriteria, 1);
 xpts_splines = xlinspace(xdomains, nsegs2);
 degrees = [3];
 deg_continuity = 2;
@@ -110,9 +110,9 @@ for i = 1:length(degrees)
 	ustr = sprintf('%g ', ucats2);
 	plotstr = sprintf('degree %d; U [%s]; CA %g', deg, ustr, ca);
 
-	plotrefs = plot_poly_utilities(pcoefs, xdomains, '-', ...
-				       cmap(i+1,:), plotstr, ...
-				       nplotsperline);
+	plotrefs = plot_splines_utilities(pcoefs, xpts_splines, '-', ...
+				          cmap(i+1, :), plotstr, ...
+				          nplotsperline);
 	plots(i + 1) = plotrefs(1);
 
 	% print degree
