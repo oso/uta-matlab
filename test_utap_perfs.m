@@ -76,7 +76,7 @@ for i = 1:niterations
 		[pcoefs2] = utas_learn(nsegs, degree, 2, xdomains, pt, pairwisecmp);
 		t(i) = toc;
 
-		u2 = utas(pcoefs2, pt);
+		u2 = utas(xpts2, pcoefs2, pt);
 	elseif strcmp(model, 'UTA')
 		nsegs = repmat([degree_nseg], length(xdomains), 1);
 
