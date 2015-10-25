@@ -4,10 +4,10 @@ close all; clear all; clc;
 % cvx_precision best
 
 % init pseudo-random number generator
-rand('seed', 1238);
+rand('seed', 333);
 
-na = 200
-ncriteria = 4
+na = 100
+ncriteria = 3
 
 % domains of the criteria
 xdomains = repmat([0 1], ncriteria, 1);
@@ -31,9 +31,9 @@ ranking = compute_ranking(u)
 pairwisecmp = compute_pairwise_relations(u);
 
 degree_poly = 7
-degree_splines = 3
-degree_continuity = 2
-nsegs2 = repmat([10], ncriteria, 1);
+degree_splines = 1
+degree_continuity = 0
+nsegs2 = repmat([5], ncriteria, 1);
 xpts_splines = xlinspace(xdomains, nsegs2);
 
 % compute polynomials
@@ -117,6 +117,7 @@ plotstr = sprintf('splines (%d) - SD: %g - KT: %g ', degree_splines, ...
 plotrefs = plot_splines_utilities(spcoefs, xpts_splines, '-', ...
 			          cmap(3, :), plotstr, ...
 			          nplotsperline);
+print_splines_utilities(spcoefs, xpts_splines, 'spline.dat')
 
 plots(3) = plotrefs(1);
 
@@ -129,9 +130,6 @@ fprintf('\nSplines degree: %d\n', degree_splines);
 fprintf('Spearman distance: %g\n', sspearmand);
 fprintf('Kendall tau: %g\n', skendallt);
 
-sh = subplot(nlines, nplotsperline, nplotsperline * nlines);
-axis off;
-legend(sh, plots);
 sh = subplot(nlines, nplotsperline, nplotsperline * nlines - 2);
 axis off;
 legend(sh, plots);
