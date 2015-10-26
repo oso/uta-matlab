@@ -101,7 +101,7 @@ cvx_begin
 
 		for d = 0:deg_continuity
 			z = [];
-			for l = 1+d:size(a(:, i))
+			for l = 1+d:size(a(:, 1, 1), 1)
 				z(l - d) = factorial(l - 1) / factorial(l - 1 - d);
 			end
 

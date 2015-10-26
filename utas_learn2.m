@@ -76,8 +76,6 @@ cvx_begin
 		for i = 2:2*deg+1
 			for j = 1:ncriteria
 				for k = 1:nsegments(j)
-%					ai = - xpts(j, 1) * sum(diag(rot90(Q(:, :, j, k)), l)) ...
-%					     + xpts(j, end) * sum(diag(rot90(R(:, :, j, k)), l));
 					ai = - xpts(j, k) * sum(diag(rot90(Q(:, :, j, k)), l)) ...
 					     + xpts(j, k + 1) * sum(diag(rot90(R(:, :, j, k)), l));
 
@@ -109,7 +107,7 @@ cvx_begin
 
 		for d = 0:deg_continuity
 			z = [];
-			for l = 1+d:size(a(:, i))
+			for l = 1+d:size(a(:, 1, 1), 1)
 				z(l - d) = factorial(l - 1) / factorial(l - 1 - d);
 			end
 
