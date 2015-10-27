@@ -58,6 +58,7 @@ for i = 1:niterations
 
 	% compute utilities
 	u = uta(xpts, uis, pt);
+
 	pairwisecmp = compute_pairwise_relations(u);
 	ranking = compute_ranking(u);
 
@@ -70,15 +71,14 @@ for i = 1:niterations
 		u2 = utap(pcoefs2, pt);
 	elseif strcmp(model, 'UTAS')
 		nsegs = repmat([nseg], length(xdomains), 1);
-		xpts2 = xlinspace(xdomains, nsegs);
 
 		tic;
-		[pcoefs2] = utas_learn(nsegs, degree, 2, xdomains, pt, pairwisecmp);
+		[xpts2, pcoefs2] = utas_learn(nsegs, degree, 2, xdomains, pt, pairwisecmp);
 		t(i) = toc;
 
 		u2 = utas(xpts2, pcoefs2, pt);
 	elseif strcmp(model, 'UTA')
-		nsegs = repmat([degree_nseg], length(xdomains), 1);
+		nsegs = repmat([nseg], length(xdomains), 1);
 
 		tic;
 		[xpts2, uis2] = uta_learn(nsegs, xdomains, pt, pairwisecmp);
