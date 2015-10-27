@@ -46,7 +46,7 @@ function [tavg, tstd, sdavg, sdstd, sdmin, sdmax, ktavg, ktstd, ktmin, ...
 				  nseginit)
 
 niterations = 10;
-xdomains = repmat([-1 1], ncriteria, 1);
+xdomains = repmat([0 1], ncriteria, 1);
 nseginit = repmat([nseginit], ncriteria, 1);
 
 for i = 1:niterations
@@ -58,22 +58,22 @@ for i = 1:niterations
 
 	% compute utilities
 	u = uta(xpts, uis, pt);
+
 	pairwisecmp = compute_pairwise_relations(u);
 	ranking = compute_ranking(u);
 
 	% learn model and compute utility
 	if strcmp(model, 'UTAP')
 		tic;
-		[pcoefs2] = utap_learn(degree, xdomains, pt, pairwisecmp);
+		[pcoefs2] = utap_learn2(degree, xdomains, pt, pairwisecmp);
 		t(i) = toc;
 
 		u2 = utap(pcoefs2, pt);
 	elseif strcmp(model, 'UTAS')
 		nsegs = repmat([nseg], length(xdomains), 1);
-		xpts2 = xlinspace(xdomains, nsegs);
 
 		tic;
-		[pcoefs2] = utas_learn(nsegs, degree, 2, xdomains, pt, pairwisecmp);
+		[xpts2, pcoefs2] = utas_learn2(nsegs, degree, 2, xdomains, pt, pairwisecmp);
 		t(i) = toc;
 
 		u2 = utas(xpts2, pcoefs2, pt);
@@ -91,8 +91,10 @@ for i = 1:niterations
 
 	% compute spearman distance and kendall tau
 	ranking2 = compute_ranking(u2);
-	sd(i) = compute_spearman_distance(ranking, ranking2);
-	kt(i) = compute_kendall_tau(ranking, ranking2);
+	[ranking'; ranking2'; u'; u2']'
+
+	sd(i) = compute_spearman_distance(ranking, ranking2)
+	kt(i) = compute_kendall_tau(ranking, ranking2)
 
 	% perform generalization
 	pt = pt_random(2000, xdomains);
@@ -110,8 +112,8 @@ for i = 1:niterations
 	% compute spearman distance and kendall tau
 	ranking = compute_ranking(u);
 	ranking2 = compute_ranking(u2);
-	sdgen(i) = compute_spearman_distance(ranking, ranking2);
-	ktgen(i) = compute_kendall_tau(ranking, ranking2);
+	sdgen(i) = compute_spearman_distance(ranking, ranking2)
+	ktgen(i) = compute_kendall_tau(ranking, ranking2)
 end
 
 tavg = mean(t);

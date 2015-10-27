@@ -42,8 +42,9 @@ for i = 1:length(degrees)
 	deg = degrees(i)
 
 	% compute splines
-	[pcoefs, cvx_status] = utas_learn2(nsegs, deg, deg_continuity, ...
-					   xdomains, pt, pairwisecmp);
+	[xpts2, pcoefs, cvx_status] = utas_learn2(nsegs2, deg, ...
+						  deg_continuity, ...
+					          xdomains, pt, pairwisecmp);
 
 	% check cvx status
 	k = strfind(cvx_status, 'Solved');
@@ -52,10 +53,10 @@ for i = 1:length(degrees)
 	end
 
 	% Check that umax is equal to 1
-	umax = utas(xpts, pcoefs, xdomains(:,2)')
+	umax = utas(xpts2, pcoefs, xdomains(:,2)')
 
 	% Compute utilities with the polynomials
-	u2 = utas(xpts, pcoefs, pt);
+	u2 = utas(xpts2, pcoefs, pt);
 
 	% Compute the ranking
 	ranking2 = compute_ranking(u2);
@@ -102,7 +103,7 @@ for i = 1:length(degrees)
 
 	plotstr = sprintf('degree %d; SD %g; KT %g', deg, sd, kt);
 
-	plotrefs = plot_splines_utilities(pcoefs, xpts, '-', ...
+	plotrefs = plot_splines_utilities(pcoefs, xpts2, '-', ...
 				          cmap(i+1, :), plotstr, ...
 				          nplotsperline);
 
