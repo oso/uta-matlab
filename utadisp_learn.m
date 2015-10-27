@@ -39,6 +39,9 @@ cvx_begin
 			Q(:, :, j) == semidefinite(n);
 		end
 
+		Q(:,:,:) <= 10;
+		Q(:,:,:) >= -10;
+
 		for j = 1:ncriteria
 			xdomains(j, 1).^(0:deg)*a(:,j) == 0;
 		end
