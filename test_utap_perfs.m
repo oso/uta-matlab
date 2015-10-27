@@ -118,19 +118,19 @@ tavg = mean(t);
 tstd = std(t);
 sdavg = mean(sd);
 sdstd = std(sd);
-sdmin = mean(sd);
-sdmax = std(sd);
+sdmin = min(sd);
+sdmax = max(sd);
 ktavg = mean(kt);
 ktstd = std(kt);
-ktmin = mean(kt);
-ktmax = std(kt);
+ktmin = min(kt);
+ktmax = max(kt);
 sdgenavg = mean(sdgen);
 sdgenstd = std(sdgen);
-sdgenmin = mean(sdgen);
-sdgenmax = std(sdgen);
+sdgenmin = min(sdgen);
+sdgenmax = max(sdgen);
 ktgenavg = mean(ktgen);
 ktgenstd = std(ktgen);
-ktgenmin = mean(ktgen);
-ktgenmax = std(ktgen);
+ktgenmin = min(ktgen);
+ktgenmax = max(ktgen);
 
 end
