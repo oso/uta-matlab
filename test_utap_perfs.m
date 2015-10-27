@@ -46,7 +46,7 @@ function [tavg, tstd, sdavg, sdstd, sdmin, sdmax, ktavg, ktstd, ktmin, ...
 				  nseginit)
 
 niterations = 10;
-xdomains = repmat([-1 1], ncriteria, 1);
+xdomains = repmat([0 1], ncriteria, 1);
 nseginit = repmat([nseginit], ncriteria, 1);
 
 for i = 1:niterations
