@@ -33,7 +33,6 @@ assignments = utasort(ucats, u);
 
 % degrees of the polynomials
 nsegs2 = repmat([10], ncriteria, 1);
-xpts_splines = xlinspace(xdomains, nsegs2);
 degrees = [3];
 deg_continuity = 2;
 
@@ -43,11 +42,9 @@ for i = 1:length(degrees)
 	deg = degrees(i)
 
 	% compute polynoms
-	[pcoefs, ucats2, cvx_status] = utadiss_learn2(nsegs2, deg, ...
-						      deg_continuity, ...
-						      xdomains, ...
-						      ncategories, pt, ...
-						      assignments);
+	[xpts_splines, pcoefs, ucats2, cvx_status] = ...
+		utadiss_learn2(nsegs2, deg, deg_continuity, xdomains, ...
+			       ncategories, pt, assignments);
 	pcoefs
 
 	% check cvx status
