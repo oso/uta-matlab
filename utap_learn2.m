@@ -5,7 +5,7 @@ epsilon = 0.00001;
 na = size(pt, 1);
 ncriteria = size(pt, 2);
 
-n = ceil(deg / 2 + 1);
+n = ceil((deg-1) / 2 + 1);
 
 cvx_begin
 	variable a(deg + 1, ncriteria);
