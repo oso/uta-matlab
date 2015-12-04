@@ -58,6 +58,11 @@ cvx_begin
 			R(:, :, j) == semidefinite(n);
 		end
 
+		Q(:,:,:) <= 10;
+		Q(:,:,:) >= -10;
+		R(:,:,:) <= 10;
+		R(:,:,:) >= -10;
+
 		k = 1 - n;
 		for i = 2:2*n+1
 			for j = 1:ncriteria

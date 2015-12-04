@@ -51,7 +51,7 @@ function [tavg, tstd, caavg, castd, camin, camax, cagenavg, cagenstd, ...
 						  model, degree_nseg, ...
 						  nseginit)
 
-niterations = 10;
+niterations = 100;
 xdomains = repmat([-1 1], ncriteria, 1);
 nseginit = repmat([nseginit], ncriteria, 1);
 

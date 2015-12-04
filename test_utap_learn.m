@@ -4,7 +4,7 @@ close all; clear all; clc;
 % cvx_precision best
 
 % init pseudo-random number generator
-rand('seed', 12);
+rand('seed', 123);
 
 na = 100
 ncriteria = 5
@@ -76,8 +76,8 @@ figure
 
 nplotsperline = 4;
 nlines = ceil((ncriteria) / nplotsperline) + 1;
-cmap = distinguishable_colors(length(degrees) + 1)
-%cmap = hsv(length(degrees) + 1);
+%cmap = distinguishable_colors(length(degrees) + 1)
+cmap = hsv(length(degrees) + 1);
 plots = [];
 
 plotstr = sprintf('plinear');
