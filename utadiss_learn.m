@@ -5,7 +5,8 @@ function [xpts, pcoefs, ucats, cvx_status] = utadiss_learn(nsegments, deg, ...
 							   pt, ...
 							   assignments)
 
-epsilon = 0.00001;
+epsilon = 1e-6;
+epsilon2 = 1e-1 / ncategories;
 na = size(pt, 1);
 ncriteria = size(pt, 2);
 
@@ -16,7 +17,7 @@ for i = 1:ncriteria
 	xpts(i, 1:npts) = linspace(xdomains(i, 1), xdomains(i, 2), npts);
 end
 
-n = ceil(deg / 2 + 1);
+n = ceil((deg - 1) / 2) + 1;
 
 cvx_begin
 	variable a(deg + 1, ncriteria, nsegmax);
@@ -59,11 +60,8 @@ cvx_begin
 			end
 		end
 
-		Q(:,:,:,:) <= 10;
-		Q(:,:,:,:) >= -10;
-
-		l = 1 - deg;
-		for i = 2:2*deg
+		l = 1 - n;
+		for i = 2:2*n
 			for j = 1:ncriteria
 				for k = 1:nsegments(j)
 					ai = sum(diag(rot90(Q(:, :, j, k)), l));
@@ -79,7 +77,7 @@ cvx_begin
 		end
 
 		for i = 1:ncategories-2
-			ucats(i) <= ucats(i + 1);
+			ucats(i) <= ucats(i + 1) - epsilon2;
 		end
 
 		ucats(ncategories - 1) <= 1;
@@ -96,7 +94,7 @@ cvx_begin
 
 		for d = 0:deg_continuity
 			z = [];
-			for l = 1+d:size(a(:, i))
+			for l = 1+d:size(a(:, 1))
 				z(l - d) = factorial(l - 1) / factorial(l - 1 - d);
 			end
 
