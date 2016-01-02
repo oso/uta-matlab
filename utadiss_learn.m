@@ -5,7 +5,8 @@ function [xpts, pcoefs, ucats, cvx_status] = utadiss_learn(nsegments, deg, ...
 							   pt, ...
 							   assignments)
 
-epsilon = 0.00001;
+epsilon = 1e-6;
+epsilon2 = 1e-1 / ncategories;
 na = size(pt, 1);
 ncriteria = size(pt, 2);
 
@@ -79,7 +80,7 @@ cvx_begin
 		end
 
 		for i = 1:ncategories-2
-			ucats(i) <= ucats(i + 1);
+			ucats(i) <= ucats(i + 1) - epsilon2;
 		end
 
 		ucats(ncategories - 1) <= 1;
