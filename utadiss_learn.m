@@ -60,9 +60,6 @@ cvx_begin
 			end
 		end
 
-		Q(:,:,:,:) <= 10;
-		Q(:,:,:,:) >= -10;
-
 		l = 1 - n;
 		for i = 2:2*n
 			for j = 1:ncriteria
