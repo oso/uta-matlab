@@ -16,7 +16,7 @@ for i = 1:ncriteria
 	xpts(i, 1:npts) = linspace(xdomains(i, 1), xdomains(i, 2), npts);
 end
 
-n = ceil(deg / 2 + 1);
+n = ceil((deg - 1) / 2) + 1;
 
 cvx_begin
 	variable a(deg + 1, ncriteria, nsegmax);
@@ -62,8 +62,8 @@ cvx_begin
 		Q(:,:,:,:) <= 10;
 		Q(:,:,:,:) >= -10;
 
-		l = 1 - deg;
-		for i = 2:2*deg
+		l = 1 - n;
+		for i = 2:2*n
 			for j = 1:ncriteria
 				for k = 1:nsegments(j)
 					ai = sum(diag(rot90(Q(:, :, j, k)), l));
