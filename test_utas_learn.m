@@ -4,16 +4,16 @@ close all; clear all; clc;
 % cvx_precision best
 
 % init pseudo-random number generator
-rand('seed', 12);
+rand('seed', 0);
 
 na = 100
-ncriteria = 4
+ncriteria = 3
 
 % domains of the criteria
 xdomains = repmat([0 1], ncriteria, 1);
 
 % number of segments
-nsegs = repmat([4], ncriteria, 1);
+nsegs = repmat([10], ncriteria, 1);
 
 % generate random UTA functions
 [xpts, uis] = uta_random(xdomains, nsegs);
@@ -30,8 +30,11 @@ ranking = compute_ranking(u)
 % compute preferences relations
 pairwisecmp = compute_pairwise_relations(u);
 
+% nsegs of the splines
+nsegs2 = repmat([5], ncriteria, 1);
+
 % degrees of the splines
-degrees = [3];
+degrees = [5];
 
 % degree of continuity of the splines
 deg_continuity = 2
