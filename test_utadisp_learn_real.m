@@ -6,9 +6,9 @@ close all; clear all; clc;
 % init pseudo-random number generator
 rand('seed', 123);
 
-na = 100
-ncriteria = 5
-ncategories = 3
+na = 200
+ncriteria = 3
+ncategories = 10
 
 x = -[300 450 600];
 y = [0.4 0.30 0];
@@ -39,7 +39,8 @@ uf(1,17-length(f1):16) = f1;
 uf(2,17-length(f2):16) = f2;
 uf(3,17-length(f3):16) = f3;
 
-xdomains = [-600 -300; -1500 -500; 50 150]
+xdomains = [-600 -300; -1500 -500; 50 150];
+xdomains
 
 % generate category thresholds
 %ucats = sort(rand(1, ncategories - 1))
@@ -52,14 +53,10 @@ pt = pt_random(na, xdomains);
 % assign examples
 u = utap(uf, pt);
 assignments = utasort(ucats, u);
-oo;
+assignments
 
-% compute assignments
-u = uta(xpts, uis, pt);
-assignments = utasort(ucats, u);
-
-% degrees of the polynoms
-degrees = [4];
+% degrees of the polynomials to find
+degrees = [3 6];
 
 results = cell(3);
 
@@ -100,19 +97,11 @@ cmap = hsv(length(degrees) + 1);
 plots = [];
 
 ustr = sprintf('%g', ucats);
-plotstr = sprintf('plinear;  U [%s]', ustr);
-plotrefs = plot_pl_utilities(xpts, uis, '-*', cmap(1,:), plotstr, ...
-			     nplotsperline);
-plots(1) = plotrefs(1);
 
-% print piecewise linear functions
-fprintf('piecewise linear functions\n');
-fprintf('==========================\n\n');
-for j = 1:ncriteria
-	str = print_pl(xpts(j,:), uis(j,:));
-	fprintf('u_%d: %s\n', j, str);
-	fprintf('U: %s\n', ustr);
-end
+plotstr = 'real';
+plotrefs = plot_poly_utilities(uf, xdomains, '-', cmap(1,:), plotstr, ...
+			       nplotsperline);
+plots(1) = plotrefs(1);
 
 for i = 1:length(degrees)
 	deg = degrees(i);
@@ -146,8 +135,5 @@ for i = 1:length(degrees)
 end
 
 sh = subplot(nlines, nplotsperline, nplotsperline * nlines);
-axis off;
-legend(sh, plots);
-sh = subplot(nlines, nplotsperline, nplotsperline * nlines - 2);
 axis off;
 legend(sh, plots);
