@@ -4,7 +4,11 @@ close all; clear all; clc;
 % cvx_precision best
 
 % read data from csv file
-[ncategories, pt, assignments] = data_get_pt_aa('data/swd_4_categories.csv');
+[ncategories, pt, assignments] = data_get_pt_aa('data/cev_4_categories.csv');
+
+%pt = pt(1:25,:)
+%assignments = assignments(1:25,:)
+%[pt assignments]
 
 na = size(pt, 1)
 ncriteria = size(pt, 2)
@@ -14,7 +18,7 @@ ncriteria = size(pt, 2)
 xdomains = [min(pt)' max(pt)']
 
 % degrees of the polynoms
-degrees = [3];
+degrees = [3 5];
 
 results = cell(3);
 
@@ -22,8 +26,8 @@ for i = 1:length(degrees)
 	deg = degrees(i)
 
 	% compute polynoms
-	[pcoefs, ucats2] = utadisp_learn(deg, xdomains, ncategories, ...
-					 pt, assignments);
+	[pcoefs, ucats2] = utadisp_learn2(deg, xdomains, ncategories, ...
+					  pt, assignments);
 
 	% Check that umax is equal to 1
 	umax = 0;
@@ -43,6 +47,8 @@ for i = 1:length(degrees)
 	results(i,1) = {pcoefs};
 	results(i,2) = {ucats2};
 	results(i,3) = {ca};
+
+	confusion_table(assignments, assignments2)
 end
 
 
