@@ -4,7 +4,7 @@ close all; clear all; clc;
 % cvx_precision best
 
 % init pseudo-random number generator
-rand('seed', 333);
+rand('seed', 1);
 
 na = 100
 ncriteria = 3
@@ -31,9 +31,9 @@ ranking = compute_ranking(u)
 pairwisecmp = compute_pairwise_relations(u);
 
 degree_poly = 7
-degree_splines = 1
-degree_continuity = 0
-nsegs2 = repmat([5], ncriteria, 1);
+degree_splines = 7
+degree_continuity = 2
+nsegs2 = repmat([10], ncriteria, 1);
 xpts_splines = xlinspace(xdomains, nsegs2);
 
 % compute polynomials
