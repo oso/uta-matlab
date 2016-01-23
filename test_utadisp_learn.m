@@ -4,17 +4,17 @@ close all; clear all; clc;
 % cvx_precision best
 
 % init pseudo-random number generator
-rand('seed', 12);
+rand('seed', 13);
 
-na = 100
+na = 10
 ncriteria = 5
-ncategories = 7
+ncategories = 2
 
 % domains of the criteria
 xdomains = repmat([0 1], ncriteria, 1);
 
 % number of segments
-nsegs = repmat([10], ncriteria, 1);
+nsegs = repmat([1], ncriteria, 1);
 
 % generate random UTA functions
 [xpts, uis] = uta_random(xdomains, nsegs);
@@ -31,8 +31,11 @@ pt = pt_random(na, xdomains);
 u = uta(xpts, uis, pt);
 assignments = utasort(ucats, u);
 
+%pt = [0 1; 1 0; 0.25 0.75; 0.75 0.25]
+%assignments = [2, 2, 2, 1]'
+
 % degrees of the polynoms
-degrees = [4];
+degrees = [9];
 
 results = cell(1, 3);
 
@@ -40,7 +43,7 @@ for i = 1:length(degrees)
 	deg = degrees(i)
 
 	% compute polynoms
-	[pcoefs, ucats2, cvx_status] = utadisp_learn2(deg, xdomains, ...
+	[pcoefs, ucats2, cvx_status] = utadisp_learn(deg, xdomains, ...
 						      ncategories, pt, ...
 						      assignments);
 

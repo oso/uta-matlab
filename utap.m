@@ -1,4 +1,4 @@
-function u = utap(pcoefs, pt)
+function [u, ui] = utap(pcoefs, pt)
 
 na = size(pt, 1);
 ncriteria = size(pt, 2);
