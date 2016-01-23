@@ -1,10 +1,29 @@
-close all; clear all; clc;
+function [spearmand, kendallt, spearmand_gen, kendallt_gen] = ...
+	test_utas_learn_real(seed, model, ncriteria, na, nagen, ...
+			     nsegments, degree, continuity, plot)
 
-rand('seed', 1);
+if nargin == 0
+	% seed
+	seed = 1;
 
-na = 100;
-nagen = 1000;
-model = @m2u;
+	% model and learning/generalization set size
+	model = @m1u;
+	na = 100;
+	nagen = 1000;
+
+	% parameters of uta-splines
+	nsegments = 3;
+	degree = 4;
+	continuity = 2;
+end
+
+rand('seed', seed)
+model
+na
+nagen
+nsegments
+degree
+continuity
 
 xdomains = [0 1; 0 1; 0 1];
 
@@ -13,10 +32,9 @@ pt = pt_random(na, xdomains);
 u = model(pt);
 pairwisecmp = compute_pairwise_relations(u);
 
-% parameters of uta-splines
-nsegments = 3
-degree = 4
-continuity = 2
+% generate perforamnce table for generalization
+pt_gen = pt_random(nagen, xdomains);
+u_gen = model(pt_gen);
 
 % learn marginal utilities
 nsegs = repmat([nsegments], 3, 1);
@@ -26,26 +44,26 @@ pcoefs
 
 umax = utas(xpts, pcoefs, xdomains(:,2)')
 
-u2 = utas(xpts, pcoefs, pt);
-
 % compute spearman distance and kendall tau
-ranking = compute_ranking(u);
-ranking2 = compute_ranking(u2);
-
-spearmand = compute_spearman_distance(ranking, ranking2)
-kendallt = compute_kendall_tau(ranking, ranking2)
-
-rand('seed', 456);
-pt = pt_random(nagen, xdomains);
-u = model(pt);
 u2 = utas(xpts, pcoefs, pt);
 ranking = compute_ranking(u);
 ranking2 = compute_ranking(u2);
 
 spearmand = compute_spearman_distance(ranking, ranking2)
 kendallt = compute_kendall_tau(ranking, ranking2)
+
+u2 = utas(xpts, pcoefs, pt_gen);
+ranking = compute_ranking(u_gen);
+ranking2 = compute_ranking(u2);
+
+spearmand_gen = compute_spearman_distance(ranking, ranking2)
+kendallt_gen = compute_kendall_tau(ranking, ranking2)
 
 % plot the marginals
+if plot == 0
+	return
+end
+
 cmap = hsv(2);
 plots = [];
 
