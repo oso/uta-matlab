@@ -7,4 +7,4 @@ pcoefs(1,:,3) = [4.1357   -5.6343   -3.3195    7.7104   -2.4659];
 nsegs = 3;
 xpts = [linspace(0, 1, nsegs + 1)];
 
-y = utas(xpts, pcoefs, x);
+y = utas(xpts, pcoefs, x) ./ 0.4264;
