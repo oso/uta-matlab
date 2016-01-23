@@ -19,8 +19,8 @@ delete(filename)
 fd = fopen(filename, 'a+');
 fprintf(fd, 'model:      %s\n', func2str(model));
 fprintf(fd, 'ncriteria:  %d\n', ncriteria);
-fprintf(fd, 'na:	 %d\n', na);
-fprintf(fd, 'nagen:	 %d\n', nagen);
+fprintf(fd, 'na:         %d\n', na);
+fprintf(fd, 'nagen:      %d\n', nagen);
 fprintf(fd, 'nsegments:  %d\n', nsegments);
 fprintf(fd, 'degree:     %d\n', degree);
 fprintf(fd, 'continuity: %d\n\n', continuity);
