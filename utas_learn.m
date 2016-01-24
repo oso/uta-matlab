@@ -1,5 +1,5 @@
-function [xpts, pcoefs, cvx_status] = utas_learn(nsegments, deg, deg_continuity, ...
-						 xdomains, pt, pairwisecmp)
+function [xpts, pcoefs, cvx_status, cvx_optval] = ...
+	utas_learn(nsegments, deg, deg_continuity, xdomains, pt, pairwisecmp)
 
 epsilon = 0.00001;
 na = size(pt, 1);
