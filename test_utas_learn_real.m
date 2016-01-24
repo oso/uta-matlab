@@ -1,4 +1,4 @@
-function [spearmand, kendallt, spearmand_gen, kendallt_gen] = ...
+function [spearmand, kendallt, spearmand_gen, kendallt_gen, cvx_optval] = ...
 	test_utas_learn_real(seed, model, ncriteria, na, nagen, ...
 			     nsegments, degree, continuity, plot)
 
@@ -38,8 +38,8 @@ u_gen = model(pt_gen);
 
 % learn marginal utilities
 nsegs = repmat([nsegments], 3, 1);
-[xpts, pcoefs, cvx_status] = utas_learn2(nsegs, degree, continuity, ...
-					 xdomains, pt, pairwisecmp);
+[xpts, pcoefs, cvx_status, cvx_optval] = ...
+	utas_learn2(nsegs, degree, continuity, xdomains, pt, pairwisecmp);
 pcoefs
 
 umax = utas(xpts, pcoefs, xdomains(:,2)')
