@@ -27,14 +27,14 @@ continuity
 
 xdomains = [0 1; 0 1; 0 1];
 
+% generate perforamnce table for generalization
+pt_gen = pt_random(nagen, xdomains);
+u_gen = model(pt_gen);
+
 % generate performance table and pairwise comparisons
 pt = pt_random(na, xdomains);
 u = model(pt);
 pairwisecmp = compute_pairwise_relations(u);
-
-% generate perforamnce table for generalization
-pt_gen = pt_random(nagen, xdomains);
-u_gen = model(pt_gen);
 
 % learn marginal utilities
 nsegs = repmat([nsegments], 3, 1);
