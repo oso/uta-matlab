@@ -10,7 +10,7 @@ for i=1:length(models)
 	for na=10:10:100
 		for nsegments=1:3
 			for degree=1:3
-				for continuity=1:degree-1
+				for continuity=0:degree-1
 					if (nsegments == 1) && (continuity > 0)
 						continue
 					end
