@@ -1,6 +1,7 @@
-function [spearmand, kendallt, spearmand_gen, kendallt_gen, cvx_optval] = ...
-	test_utas_learn_real(seed, model, ncriteria, na, nagen, ...
-			     nsegments, degree, continuity, plot)
+function [spearmand, kendallt, spearmand_gen, kendallt_gen, cvx_optval,
+	  cvx_cputime] = ...
+		test_utas_learn_real(seed, model, ncriteria, na, nagen, ...
+				     nsegments, degree, continuity, plot)
 
 if nargin == 0
 	% seed
@@ -38,7 +39,7 @@ pairwisecmp = compute_pairwise_relations(u);
 
 % learn marginal utilities
 nsegs = repmat([nsegments], 3, 1);
-[xpts, pcoefs, cvx_status, cvx_optval] = ...
+[xpts, pcoefs, cvx_status, cvx_optval, cvx_cputime] = ...
 	utas_learn2(nsegs, degree, continuity, xdomains, pt, pairwisecmp);
 pcoefs
 
