@@ -17,6 +17,9 @@ if nargin == 0
 	nsegments = 3;
 	degree = 4;
 	continuity = 2;
+
+	% plot the marginals by default
+	plot = 1;
 end
 
 rand('seed', seed)
