@@ -9,6 +9,7 @@ if nargin == 0
 
 	% model and learning/generalization set size
 	model = @m1u;
+	ncriteria = 3;
 	na = 100;
 	nagen = 1000;
 
@@ -26,7 +27,7 @@ nsegments
 degree
 continuity
 
-xdomains = [0 1; 0 1; 0 1];
+xdomains = repmat([0 1], ncriteria, 1);
 
 % generate perforamnce table for generalization
 pt_gen = pt_random(nagen, xdomains);
