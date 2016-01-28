@@ -42,7 +42,7 @@ u = model(pt);
 pairwisecmp = compute_pairwise_relations(u);
 
 % learn marginal utilities
-nsegs = repmat([nsegments], 3, 1);
+nsegs = repmat([nsegments], ncriteria, 1);
 [xpts, pcoefs, cvx_status, cvx_optval, cvx_cputime] = ...
 	utas_learn2(nsegs, degree, continuity, xdomains, pt, pairwisecmp);
 pcoefs
