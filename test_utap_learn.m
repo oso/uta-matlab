@@ -124,6 +124,3 @@ end
 sh = subplot(nlines, nplotsperline, nplotsperline * nlines);
 axis off;
 legend(sh, plots);
-sh = subplot(nlines, nplotsperline, nplotsperline * nlines - 2);
-axis off;
-legend(sh, plots);
